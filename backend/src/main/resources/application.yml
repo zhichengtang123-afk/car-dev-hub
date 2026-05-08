@@ -1,0 +1,103 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: car-dev-hub
+  
+  # 数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/car_dev_hub?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+  
+  # Redis配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: 
+      database: 0
+      timeout: 10000
+      lettuce:
+        pool:
+          max-active: 8
+          max-wait: -1
+          max-idle: 8
+          min-idle: 0
+  
+  # 文件上传配置
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+  
+  # Jackson配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+    default-property-inclusion: non_null
+
+# MyBatis Plus配置
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.cardev.hub.entity
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# JWT配置
+jwt:
+  secret: carDevHubSecretKeyForJwtTokenGeneration2026CarDevHubSecretKey
+  expiration: 86400000  # 24小时
+  header: Authorization
+  prefix: Bearer 
+
+# 文件存储配置
+file:
+  upload-path: ./uploads/
+  allowed-types: pdf,doc,docx,xls,xlsx,ppt,pptx,jpg,jpeg,png,gif,zip,rar,7z
+
+# 阿里云OSS配置
+aliyun:
+  oss:
+    endpoint: ""
+    accessKeyId: ""
+    accessKeySecret: ""
+    bucketName: ""
+    region: ""
+
+# 日志配置
+logging:
+  level:
+    root: info
+    com.cardev.hub: debug
+    com.baomidou.mybatisplus: debug
+
+# Knife4j API文档配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: '全部接口'
+      paths-to-match: '/**'
+      packages-to-scan: com.cardev.hub.controller
+
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
